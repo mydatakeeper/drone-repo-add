@@ -1,51 +1,45 @@
 language: bash
 services: docker
-
 addons:
   apt:
     packages:
     - qemu-user-static
-
 script:
-  - sed -e "s|%CARCH%|${CARCH}|g" -i 'Dockerfile'
-  - docker build -t mydatakeeper/drone-repo-add:${CARCH} .
-
+- sed -e "s|%CARCH%|${CARCH}|g" -i 'Dockerfile'
+- docker build -t mydatakeeper/drone-repo-add:${CARCH} .
 deploy:
   provider: script
-  script: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin && docker push mydatakeeper/drone-repo-add:${CARCH}
+  script: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+    && docker push mydatakeeper/drone-repo-add:${CARCH}
   on:
     branch: master
-
 matrix:
   include:
-    - env: CARCH=arietta
-    - env: CARCH=kirkwood
-    - env: CARCH=armv5
-    - env: CARCH=mmp
-    - env: CARCH=rpi
-    - env: CARCH=am33x
-    # - env: CARCH=odroid-c1
-    - env: CARCH=mirabox
-    - env: CARCH=smileplug
-    # - env: CARCH=cubox
-    - env: CARCH=d3plug
-    - env: CARCH=odroid-x
-    - env: CARCH=odroid
-    - env: CARCH=odroid-xu
-    # - env: CARCH=odroid-xu3
-    - env: CARCH=usbarmory
-    # - env: CARCH=imx6-cubox
-    # - env: CARCH=utilite
-    - env: CARCH=armv7
-    - env: CARCH=armv7-chromebook
-    - env: CARCH=rpi-2
-    # - env: CARCH=veyron
-    # - env: CARCH=zedboard
-    - env: CARCH=aarch64
-    - env: CARCH=aarch64-chromebook
-    - env: CARCH=odroid-c2
-    - env: CARCH=odroid-n2
-    - env: CARCH=oak
-    - env: CARCH=dragonboard410c
-    - env: CARCH=rpi-3
-    - env: CARCH=gru
+  - env: CARCH=arietta
+  - env: CARCH=kirkwood
+  - env: CARCH=armv5
+  - env: CARCH=mmp
+  - env: CARCH=rpi
+  - env: CARCH=am33x
+  - env: CARCH=mirabox
+  - env: CARCH=smileplug
+  - env: CARCH=d3plug
+  - env: CARCH=odroid-x
+  - env: CARCH=odroid
+  - env: CARCH=odroid-xu
+  - env: CARCH=usbarmory
+  - env: CARCH=armv7
+  - env: CARCH=armv7-chromebook
+  - env: CARCH=rpi-2
+  - env: CARCH=aarch64
+  - env: CARCH=aarch64-chromebook
+  - env: CARCH=odroid-c2
+  - env: CARCH=odroid-n2
+  - env: CARCH=oak
+  - env: CARCH=dragonboard410c
+  - env: CARCH=rpi-3
+  - env: CARCH=gru
+env:
+  global:
+  - secure: ZvZPE/s610eZufs3jzfuIoAsrn0FhQkKZJtlSkf+XQtnAQKJh83U1i1nDKctGHhb6pKhjsRw9Jssu/sAW3kaoSdBdSzjKTzfF+euRn65qAoEzvb0wkYCB9HE5I2+Zsrs2ioMYAgB38Y9rfa6d1quPWX/LCwGs3mw4FzsiRF7b29e03iEw3y9WFWH6xZKSRdAeH69LvKC9mIJ1/pMg0cQhjzlM19TwanYJ/wnQ5FqyUDOKiwDE5o84Fa+MIVT4TlqqNyaOmsBeHkp7fKY1p1Bhbxw2b4YhVlFgZHxNpWR9qwuEpSMTpXa4jMvF3is5SuF/l3O8sgwJfGF55OKdUnvTsAzmL17suWNxfEMbm9ZHZPp/WhH3SLhvJIcTLIOUsoTO2SQwSboTLdySzmykQYSzNs2ghnaF3t+le5H3FPQmwWdOwhi/SdXqy5ro5VJumtOFeIqGjlMIIR7i5Nvg4+o8JedZxfVt5PeCZa/ujAKT5v4OiipNIu5Vh995WFCVpF+7ghXtUvwv9ZWQQpvU2fCLZPfnvqVsZdlPE5/BYtx380+ZsRkLBElQATqxI71mtzZUONGqxMvImr08pqP2pq3ZxdsY5QkiKMXk060BLa73sVU6PjsLGMgbotR41mmHT87HGycZ/v0SvfqXPdTmQ9tXIljlsTL0JoN3Y2TbhukRTI=
+  - secure: C73QFOeivdS3I6nXmqT7Kf9vwXem7EH1HKMpLbsChVLYy+BTDWaqJbZvoyPqXt00BhNWmaTASZnhsrWux8TrxA3zuGGzP8MU2fZPSuAe+/E1gQ7RVS4RgfsyjX0Tdu8RmyufMybFdEMqTqrJ+NUgTRmqYjvck464xiNKndiQPaup7E8P3kLNn/G+zQXOIzvTxWDnGzAMzO4eluN6caWAMcAiVvgKGQuiTOnM9K3YHr9tVjhTmwDalQCngYhhOtv13T0RliFJ0UFdRFhJ8rowRA/Za/ZHe5Tg3rtYA59FfmCu6jrcyoESsJWEdd3ZLAQYJ7CENs6cN5793driooNhQ/GlVJiJBYfGIsj4IhNVHC848Dl1zvEwA4kNdvm66vTxYFazH9ys+/RFZeOwWu/26f//C2pVjw1edlmQoi+Ikn6zKNwIjtn6bBrz2m9ecOMlPQU+Mh9gK/vLiJlMQM4HnSbrY0Lrr2tZoRHIClixPYqOZ36osot3e8xyCmvEoYmmlVmVMzteI7NnhLzo/4QZ+plmL2JXOVlrz3rfPCx9qkkDt2xjZyCYDeYzlRaCr8MtxcyoG8FWidTexoyDnGmFWAitDI7Y/HDjCUoZ+2MxeQrjaxcIP6U4snJ84RH4ape7r1iqaMNIl3FMBVKSVB0zd7bYSSkaaUPw7r+WPVudrlk=
