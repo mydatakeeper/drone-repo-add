@@ -1,4 +1,4 @@
-FROM archlinux/base:latest
+FROM mydatakeeper/archlinux
 
 ENV PLUGIN_REPO ''
 ENV PLUGIN_FILES '*.pkg.tar.xz'
