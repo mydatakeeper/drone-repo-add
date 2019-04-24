@@ -1,11 +1,11 @@
 language: bash
 services: docker
 script:
-- docker build -t mydatakeeper/drone-repo-add:latest .
+- docker build -t mydatakeeper/drone-repo-add .
 deploy:
   provider: script
   script: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-    && docker push mydatakeeper/drone-repo-add:latest
+    && docker push mydatakeeper/drone-repo-add
   on:
     branch: master
 env:
