@@ -1,6 +1,5 @@
 FROM mydatakeeper/archlinux
 
-ENV PLUGIN_REPO ''
 ENV PLUGIN_FILES '*.pkg.tar.xz'
 CMD set -xe \
     && for file in $(echo $PLUGIN_FILES | tr ',' ' '); do \
